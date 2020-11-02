@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { count } from 'console';
 
 @Component({
   selector: 'app-root',
@@ -8,29 +9,54 @@ import { Component, OnInit } from '@angular/core';
 export class AppComponent implements OnInit {
   title = 'ng-mertronome';
   timer = null;
-  audio = new Audio('../assets/metro_mine/MetroBar1.wav')
-  bpm: number;
-
+  audio = new Audio('../assets/metro_mine/MetroBar1.wav');
+  audioStress = new Audio('../assets/metro_mine/MetroBeat1.wav');
+  stress = false;
+  bpm = 60;
+  beats = 1;
+  switchClass = false;
   ngOnInit() {
 
   }
 
-  start(bpm) {
+  start(bpm, beats) {
     this.stop();
-    this.timer = this.metronome_engine(bpm)
+    this.timer = this.metronome_engine(bpm, beats);
   }
 
   stop() {
     return clearInterval(this.timer);
   }
 
-  metronome_engine(bpm) {
+  metronome_engine(bpm, beats) {
+    let counter = 0;
     return setInterval(() => {
-      this.audio.play()
-    }, this.calculate_bpm(bpm))
+      if (counter == beats) {
+        counter = 1;
+      } else {
+        counter++;
+      }
+      this.beat_maker(counter);
+      this.switchClass = !this.switchClass;
+    }, this.calculate_bpm(bpm));
   }
 
-  calculate_bpm(val){
+  beat_maker(counter) {
+    if (this.stress) {
+      if (counter <= 1) {
+        console.log('primo');
+        this.audioStress.play()
+      } else {
+        this.audio.play()
+        console.log('bit');
+      }
+    } else {
+      this.audio.play()
+      console.log('bit');
+    }
+  }
+
+  calculate_bpm(val) {
     return 60000 / val;
   }
 
