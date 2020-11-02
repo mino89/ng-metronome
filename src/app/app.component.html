@@ -1,0 +1,5 @@
+hello metronome
+<input type="number" [(ngModel)]="bpm" (change)="start(bpm)">
+{{bpm}}
+<button  (click)="start(bpm)">start</button>
+<button  (click)="stop()"> stop </button>
