@@ -1,12 +1,16 @@
 hello metronome
-<input type="number" [(ngModel)]="bpm" (change)="start(bpm,beats)">
-
-<input type="range" min="0" max="300" [(ngModel)]="bpm" (change)="start(bpm,beats)">
-<input type="range" min="0" max="12" [(ngModel)]="beats" (change)="start(bpm,beats)">
+<input type="number" [(ngModel)]="bpm">
+frequency
+<input type="range" min="200" max="2000" [(ngModel)]="frequency" >{{frequency}}
+bpm
+<input type="range" min="0" max="300" [(ngModel)]="bpm" >{{bpm}}
+beats
+<input type="range" min="2" max="12" [(ngModel)]="beats">{{beats}}
+<input type="checkbox" [(ngModel)]="stress" /> stress first note
 <div *ngIf="switchClass">1</div> <div *ngIf="!switchClass">0</div>
-{{bpm}}/{{beats}}
+
 <button  (click)="start(bpm,beats)">start</button>
 <button  (click)="stop()"> stop </button>
 
 
-<input type="checkbox" [(ngModel)]="stress" /> stress
+
