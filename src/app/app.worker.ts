@@ -1,6 +1,7 @@
 /// <reference lib="webworker" />
 let timer;
 let counter = 0;
+
 function calculate_bpm(val) {
   return 60000 / val;
 }

@@ -1,4 +1,4 @@
-hello metronome
+<!--hello metronome
 <input type="number" [(ngModel)]="bpm">
 frequency
 <input type="range" min="200" max="2000" [(ngModel)]="frequency" >{{frequency}}
@@ -10,7 +10,12 @@ beats
 <div *ngIf="switchClass">1</div> <div *ngIf="!switchClass">0</div>
 
 <button  (click)="start(bpm,beats)">start</button>
-<button  (click)="stop()"> stop </button>
+<button  (click)="stop()"> stop </button>-->
 
-
-
+<div class="container">
+  <div class="circle nm__shadow">
+    <button (click)="increaseNumber()" (mousedown)="increaseBpm()" (mouseup)="clearBpm()">+</button>
+    {{bpm}}
+    <button (click)="decreaseNumber()" (mousedown)="decreaseBpm()" (mouseup)="clearBpm()">-</button>
+  </div>
+</div>

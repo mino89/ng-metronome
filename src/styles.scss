@@ -1,1 +1,13 @@
 /* You can add global styles to this file, and also import other style files */
+
+@import './variables.scss';
+@import './resets.scss';
+
+body{
+  background: $bg;
+}
+
+.nm__shadow {
+  background: $bg;
+  box-shadow: inset -5px -5px 10px $shadows, inset 5px 5px 10px $lights,20px 20px 20px $shadows, -20px -20px 20px $lights;
+}

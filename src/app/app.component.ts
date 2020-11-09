@@ -1,3 +1,4 @@
+import { SoundService } from './sound.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,23 +8,25 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AppComponent {
   title = 'ng-mertronome';
-  timer = null;
-  audio = new Audio('../assets/metro_frank/metro_1.wav');
-  audioStress = new Audio('../assets/metro_frank/metro_other.wav');
+  tempo = null;
   stress = false;
   bpm = 60;
   beats = 2;
+  limitMax = 300;
+  limitMin = 40;
   frequency = 800;
   switchClass = false;
   worker: Worker;
-  private audioCtx = new (window['AudioContext'] || window['webkitAudioContext'])();
-  constructor() {
+
+  constructor(
+    public soundService: SoundService
+  ) {
     if (typeof Worker !== 'undefined') {
       // Create a new
       this.worker = new Worker('./app.worker', { type: 'module' });
       this.worker.onmessage = ({ data }) => {
-        console.log(`page got message: ${data.command}`);
-        this.sound(data.count, data.beats)
+        this.soundService.sound(data.count, data.beats, this.stress, this.frequency)
+        this.switchClass = !this.switchClass;
       };
     } else {
       // Web Workers are not supported in this environment.
@@ -34,36 +37,47 @@ export class AppComponent {
   start(bpm, beats) {
     this.worker.postMessage({
       command: 'start',
-      bpm: bpm,
-      beats: beats,
+      bpm,
+      beats,
     });
-    // this.stop();
-    // this.timer = this.metronome_engine(bpm, beats);
   }
 
   stop() {
     this.worker.postMessage({
       command: 'stop'
     });
-    // return clearInterval(this.timer);
   }
 
-  sound(beatNumber, beats) {
-    console.log(beatNumber, beatNumber % beats);
-    const osc = this.audioCtx.createOscillator();
-    const envelope = this.audioCtx.createGain();
+  increaseBpm() {
 
-    osc.frequency.value = (beatNumber % beats === 1 && this.stress) ? this.frequency + 200 : this.frequency;
-    envelope.gain.value = 1;
-    envelope.gain.exponentialRampToValueAtTime(1, this.audioCtx.currentTime + 0.001);
-    envelope.gain.exponentialRampToValueAtTime(0.001, this.audioCtx.currentTime + 0.02);
+    return this.tempo = setInterval(() => {
+      this.increaseNumber();
+    }, 50);
 
-    osc.connect(envelope);
-    envelope.connect(this.audioCtx.destination);
-
-    osc.start(this.audioCtx.currentTime);
-    osc.stop(this.audioCtx.currentTime + 0.03);
   }
+
+
+  decreaseBpm() {
+    return this.tempo = setInterval(() => {
+      this.decreaseNumber();
+    }, 50);
+  }
+
+  increaseNumber() {
+    if (this.bpm <= this.limitMax) {
+      this.bpm++;
+    }
+  }
+
+  decreaseNumber() {
+    if (this.bpm >= this.limitMin) {
+      this.bpm--;
+    }
+  }
+  clearBpm() {
+    clearInterval(this.tempo);
+  }
+
 }
 
 
