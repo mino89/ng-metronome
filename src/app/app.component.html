@@ -9,13 +9,25 @@ beats
 <input type="checkbox" [(ngModel)]="stress" /> stress first note
 <div *ngIf="switchClass">1</div> <div *ngIf="!switchClass">0</div>
 
-<button  (click)="start(bpm,beats)">start</button>
-<button  (click)="stop()"> stop </button>-->
+-->
 
 <div class="container">
-  <div class="circle nm__shadow">
-    <button (click)="increaseNumber()" (mousedown)="increaseBpm()" (mouseup)="clearBpm()">+</button>
-    {{bpm}}
-    <button (click)="decreaseNumber()" (mousedown)="decreaseBpm()" (mouseup)="clearBpm()">-</button>
+  <div class="dashboard">
+    <div class="card nm__shadow__lg">
+      <div class="card__header">
+        {{bpm}}
+      </div>
+      <div class="card__actions">
+        <button (click)="decreaseNumber()" (mousedown)="decreaseBpm()"
+          (mouseup)="clearBpm()"><i class="large material-icons">remove</i></button>
+        <button *ngIf="!running" class="circle_button nm__shadow__md" (click)="start(bpm,beats)"><i
+            class="large material-icons">play_arrow</i></button>
+        <button *ngIf="running" class="circle_button nm__shadow__md" (click)="stop()"> <i class="large material-icons">pause</i>
+        </button>
+        <button (click)="increaseNumber()" (mousedown)="increaseBpm()"
+          (mouseup)="clearBpm()"><i class="large material-icons">add</i></button>
+      </div>
+
+    </div>
   </div>
 </div>

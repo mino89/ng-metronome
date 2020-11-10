@@ -17,7 +17,7 @@ export class AppComponent {
   frequency = 800;
   switchClass = false;
   worker: Worker;
-
+  running: boolean = false;
   constructor(
     public soundService: SoundService
   ) {
@@ -35,6 +35,7 @@ export class AppComponent {
   }
 
   start(bpm, beats) {
+    this.running = true;
     this.worker.postMessage({
       command: 'start',
       bpm,
@@ -43,6 +44,7 @@ export class AppComponent {
   }
 
   stop() {
+    this.running = false;
     this.worker.postMessage({
       command: 'stop'
     });
@@ -52,7 +54,7 @@ export class AppComponent {
 
     return this.tempo = setInterval(() => {
       this.increaseNumber();
-    }, 50);
+    }, 100);
 
   }
 
@@ -60,7 +62,7 @@ export class AppComponent {
   decreaseBpm() {
     return this.tempo = setInterval(() => {
       this.decreaseNumber();
-    }, 50);
+    }, 100);
   }
 
   increaseNumber() {
@@ -70,7 +72,7 @@ export class AppComponent {
   }
 
   decreaseNumber() {
-    if (this.bpm >= this.limitMin) {
+    if (this.bpm > this.limitMin) {
       this.bpm--;
     }
   }

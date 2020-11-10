@@ -2,12 +2,20 @@
 
 @import './variables.scss';
 @import './resets.scss';
+@import 'https://fonts.googleapis.com/icon?family=Material+Icons';
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100&display=swap');
 
 body{
+  font-family: 'Noto Sans KR', sans-serif;
   background: $bg;
 }
 
 .nm__shadow {
-  background: $bg;
-  box-shadow: inset -5px -5px 10px $shadows, inset 5px 5px 10px $lights,20px 20px 20px $shadows, -20px -20px 20px $lights;
+
+  &__lg{
+    box-shadow: inset -1px -1px 1px $lights, inset -2px -2px 2px $shadows, 10px 10px 20px $shadows, -20px -20px 20px $lights;
+  }
+  &__md{
+    box-shadow: inset -2.5px -2.5px 2.5px $shadows, inset 2.5px 2.5px 2.5px $lights,2.5px 2.5px 2.5px $shadows, 2.5px 2.5px 2.5px $lights;
+  }
 }
