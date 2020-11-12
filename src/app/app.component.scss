@@ -1,53 +1,74 @@
-
-@import '../variables.scss';
-.container{
+@import "../variables.scss";
+.container {
   height: 100vh;
   width: 100vw;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  align-items: stretch;
+  justify-content: stretch;
+  color: $txtcolor;
+  transition: .3s color linear;
 }
 
-.dashboard{
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
+.bpm{
+  font-size: 5rem;
+}
+.display {
+  color:rgba($lights, 1);
 }
 
-.card{
-  border-radius: 2.5rem;
-  max-width: 20rem;
-  min-width: 10rem;
-  padding: 1rem;
+.block {
+  flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content:center;
-  align-items: center;
-  overflow: hidden;
-  font-size: 5rem;
-  &__header{
-    height: 10rem;
+  align-items: stretch;
+  justify-content: center;
+  &__content{
     display: flex;
+    flex:1;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    background: $shadows;
-    margin: -1rem -1rem 0 -1rem;
-    width: calc(100% + 2rem);
   }
-  &__actions{
-    display: flex;
-    padding: 1rem;
-  }
+
 }
 
-.circle_button{
-  height: 5rem;
-  width: 5rem;
+.card {
+  border-radius: 2.5rem;
+  max-width: 20rem;
+  padding: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  &__actions {
+    display: flex;
+    padding: 1rem;
+    align-items: center;
+  }
+}
+.circle_button {
   display: flex;
   border-radius: 100%;
   align-items: center;
   justify-content: center;
+  margin: 0.5rem;
+  i{
+    transition: .3s color linear;
+  }
+  &.md {
+    height: 5rem;
+    width: 5rem;
+    i {
+      font-size: 2rem;
+
+    }
+  }
+  &.sm {
+    height: 2rem;
+    width: 2rem;
+    i {
+      font-size: 1rem;
+    }
+  }
 }
-
-
-

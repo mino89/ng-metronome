@@ -11,23 +11,71 @@ beats
 
 -->
 
-<div class="container">
-  <div class="dashboard">
-    <div class="card nm__shadow__lg">
-      <div class="card__header">
-        {{bpm}}
-      </div>
-      <div class="card__actions">
-        <button (click)="decreaseNumber()" (mousedown)="decreaseBpm()"
-          (mouseup)="clearBpm()"><i class="large material-icons">remove</i></button>
-        <button *ngIf="!running" class="circle_button nm__shadow__md" (click)="start(bpm,beats)"><i
-            class="large material-icons">play_arrow</i></button>
-        <button *ngIf="running" class="circle_button nm__shadow__md" (click)="stop()"> <i class="large material-icons">pause</i>
-        </button>
-        <button (click)="increaseNumber()" (mousedown)="increaseBpm()"
-          (mouseup)="clearBpm()"><i class="large material-icons">add</i></button>
-      </div>
-
+<div class="container" [ngStyle]="{'color': colorIntensity}">
+  <div class="block">
+    <div class="display block__content" [ngStyle]="{'background-color': colorIntensity}">
+      <span class="bpm">{{bpm}}</span>
+      <ul>
+        <li *ngFor="let i of arrayConversion(beats)">1</li>
+      </ul>
     </div>
   </div>
+  <div class="block">
+    <div class="block__content">
+      <div class="card nm__shadow__lg">
+        <div>
+          <fieldset>
+            <label>beats</label>
+            <input
+              [ngStyle]="{'color': colorIntensity}"
+              type="range"
+              min="2"
+              max="12"
+              [(ngModel)]="beats"
+              (change)="stop()">
+          </fieldset>
+          <fieldset>
+            <label>bpm</label>
+            <input
+              [ngStyle]="{'color': colorIntensity}"
+              type="range"
+              min="0"
+              max="300"
+              [(ngModel)]="bpm"
+              (change)="changeColorIntensity(); stop()">
+          </fieldset>
+
+        </div>
+        <div class="card__actions">
+          <button
+            class="circle_button sm nm__shadow__sm"
+            (click)="decreaseNumber()"
+            (mousedown)="decreaseBpm()"
+            (mouseup)="clearBpm()">
+            <i [ngStyle]="{'color': colorIntensity}" class="tiny material-icons">remove</i>
+          </button>
+          <button
+            *ngIf="!running"
+            class="circle_button md nm__shadow__md"
+            (click)="start(bpm,beats)">
+            <i class="large material-icons" [ngStyle]="{'color': colorIntensity}">play_arrow</i>
+          </button>
+          <button
+            *ngIf="running"
+            class="circle_button md nm__shadow__md"
+            (click)="stop()">
+            <i [ngStyle]="{'color': colorIntensity}" class="large material-icons">pause</i>
+          </button>
+          <button
+            class="circle_button sm nm__shadow__sm"
+            (click)="increaseNumber()"
+            (mousedown)="increaseBpm()"
+            (mouseup)="clearBpm()">
+            <i [ngStyle]="{'color': colorIntensity}" class="tiny material-icons">add</i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </div>

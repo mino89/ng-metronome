@@ -18,6 +18,9 @@ export class AppComponent {
   switchClass = false;
   worker: Worker;
   running: boolean = false;
+  colorIntensity = null;
+
+
   constructor(
     public soundService: SoundService
   ) {
@@ -32,6 +35,9 @@ export class AppComponent {
       // Web Workers are not supported in this environment.
       // You should add a fallback so that your program still executes correctly.
     }
+  }
+  ngOnInit() {
+    this.changeColorIntensity();
   }
 
   start(bpm, beats) {
@@ -51,11 +57,9 @@ export class AppComponent {
   }
 
   increaseBpm() {
-
     return this.tempo = setInterval(() => {
       this.increaseNumber();
     }, 100);
-
   }
 
 
@@ -68,16 +72,40 @@ export class AppComponent {
   increaseNumber() {
     if (this.bpm <= this.limitMax) {
       this.bpm++;
+      this.changeColorIntensity();
+
     }
   }
 
   decreaseNumber() {
     if (this.bpm > this.limitMin) {
       this.bpm--;
+      this.changeColorIntensity();
+
     }
   }
+
   clearBpm() {
     clearInterval(this.tempo);
+  }
+  arrayConversion(n: number): any[] {
+    return Array(n);
+  }
+
+  changeColorIntensity() {
+    if (this.bpm <= 40) {
+      this.colorIntensity = '#8801FE'
+    } else if (this.bpm <= 100) {
+      this.colorIntensity = '#011AFE'
+    } else if (this.bpm <= 150) {
+      this.colorIntensity = '#08C33A'
+    } else if (this.bpm <= 200) {
+      this.colorIntensity = '#FECD09'
+    } else if (this.bpm <= 250) {
+      this.colorIntensity = '#FE8C09'
+    } else {
+      this.colorIntensity = '#FE0909'
+    }
   }
 
 }
