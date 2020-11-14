@@ -1,6 +1,6 @@
 /// <reference lib="webworker" />
 let timer;
-let counter = 0;
+let counter = -1;
 
 function calculate_bpm(val) {
   return 60000 / val;
@@ -16,7 +16,7 @@ addEventListener('message', ({ data }) => {
       postMessage(response);
     }, calculate_bpm(data.bpm));
   } else {
-    counter = 0;
+    counter = -1;
     clearInterval(timer);
   }
 

@@ -3,15 +3,19 @@
 @import './variables.scss';
 @import './resets.scss';
 @import 'https://fonts.googleapis.com/icon?family=Material+Icons';
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;600&display=swap');
 
 body{
-  font-family: 'Noto Sans KR', sans-serif;
+  font-family: 'Open Sans', sans-serif;
   color: $txtcolor;
   background: $bg;
+  font-weight: 300;
 }
 i{
   color: $txtcolor;
+}
+b{
+  font-weight: 600;
 }
 
 .nm__shadow {
@@ -34,15 +38,17 @@ i{
 
 
 input[type=range] {
-  width: 200px;
+  width: 100%;
+  min-width: 250px;
   background-color: transparent;
   -webkit-appearance: none;
-  color: $txtcolor;
   transition: .3s color linear;
 }
+
 input[type=range]:focus {
   outline: none;
 }
+
 input[type=range]::-webkit-slider-runnable-track {
   @extend .nm__shadow__range;
   border-radius: .5rem;
@@ -71,75 +77,70 @@ input[type=range]::-moz-range-track {
 }
 
 
+@each $name, $value in $rainbow {
+  .color-#{$name}{
+    color: $value;
+  }
+  .bg-#{$name}{
+    background-color: $value;
+  }
+}
 
-// input[type='range']::-webkit-slider-thumb {
-//   width: 10px;
-//   -webkit-appearance: none;
-//   height: 10px;
-//   cursor: ew-resize;
-//   background: #434343;
-//   box-shadow: -80px 0 0 80px #43e5f7;
-// }
-// input[type=range]:focus::-webkit-slider-runnable-track {
-//   background: #ffbae6;
-// }
-// input[type=range]::-moz-range-track {
-//   background: #ff91d8;
-//   border: 2.3px solid #dbd58f;
-//   border-radius: 25px;
-//   width: 100%;
-//   height: 13.3px;
-//   cursor: pointer;
-// }
-// input[type=range]::-moz-range-thumb {
-//   width: 30px;
-//   height: 30px;
-//   background: #ffff7d;
-//   border: 5px solid #ffcdff;
-//   border-radius: 12px;
-//   cursor: pointer;
-// }
-// input[type=range]::-ms-track {
-//   background: transparent;
-//   border-color: transparent;
-//   border-width: 12.45px 0;
-//   color: transparent;
-//   width: 100%;
-//   height: 13.3px;
-//   cursor: pointer;
-// }
-// input[type=range]::-ms-fill-lower {
-//   background: #ff68ca;
-//   border: 2.3px solid #dbd58f;
-//   border-radius: 50px;
-// }
-// input[type=range]::-ms-fill-upper {
-//   background: #ff91d8;
-//   border: 2.3px solid #dbd58f;
-//   border-radius: 50px;
-// }
-// input[type=range]::-ms-thumb {
-//   width: 30px;
-//   height: 30px;
-//   background: #ffff7d;
-//   border: 5px solid #ffcdff;
-//   border-radius: 12px;
-//   cursor: pointer;
-//   margin-top: 0px;
-//   /*Needed to keep the Edge thumb centred*/
-// }
-// input[type=range]:focus::-ms-fill-lower {
-//   background: #ff91d8;
-// }
-// input[type=range]:focus::-ms-fill-upper {
-//   background: #ffbae6;
-// }
-// /*TODO: Use one of the selectors from https://stackoverflow.com/a/20541859/7077589 and figure out
-// how to remove the virtical space around the range input in IE*/
-// @supports (-ms-ime-align:auto) {
-//   /* Pre-Chromium Edge only styles, selector taken from hhttps://stackoverflow.com/a/32202953/7077589 */
-//   input[type=range] {
-//     margin: 0;
-//     /*Edge starts the margin from the thumb, not the track as other browsers do*/
-//   }
-// }
+.toggle-switch {
+  height: 1.5rem;
+  width: 3rem;
+  display: inline-block;
+  position: relative;
+  cursor: pointer;
+
+  input {
+    display: none;
+    &:checked + .slider {
+      @each $name, $value in $rainbow {
+        &.bg-#{$name}{
+          background-color: lighten($value, 40%) !important;
+        }
+      }
+    }
+    &:checked + .slider::after {
+      transform: translateX(1.5rem);
+    }
+  }
+  .slider {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    transition: .3s;
+    border-radius: 1.5rem;
+    background: transparent;
+    &::after {
+      border-radius: 100%;
+      position: absolute;
+      content: '';
+      height: 1.3rem;
+      width: 1.3rem;
+      left: .10rem;
+      bottom: .10rem;
+      transition: .3s;
+      box-shadow: 2px 1px 1px $shadows;
+    }
+    @each $name, $value in $rainbow {
+      &.bg-#{$name}{
+        &::after{
+          background-color: $value;
+        }
+      }
+    }
+  }
+}
+
+.flex_block{
+  display: flex;
+  align-items: center;
+  margin: .75rem 0;
+  p{
+    margin-left: .5rem;
+  }
+}

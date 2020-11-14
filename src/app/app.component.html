@@ -1,33 +1,47 @@
 <!--hello metronome
-<input type="number" [(ngModel)]="bpm">
-frequency
-<input type="range" min="200" max="2000" [(ngModel)]="frequency" >{{frequency}}
-bpm
-<input type="range" min="0" max="300" [(ngModel)]="bpm" >{{bpm}}
-beats
-<input type="range" min="2" max="12" [(ngModel)]="beats">{{beats}}
+
+
 <input type="checkbox" [(ngModel)]="stress" /> stress first note
 <div *ngIf="switchClass">1</div> <div *ngIf="!switchClass">0</div>
 
 -->
 
-<div class="container" [ngStyle]="{'color': colorIntensity}">
+<div class="container" [ngClass]="'color-'+tempoName">
   <div class="block">
-    <div class="display block__content" [ngStyle]="{'background-color': colorIntensity}">
+    <div class="display block__content" [ngClass]="'bg-'+tempoName">
       <span class="bpm">{{bpm}}</span>
-      <ul>
-        <li *ngFor="let i of arrayConversion(beats)">1</li>
+      <em><b>Bpm</b></em>
+      <em class="tempo-name">{{tempoName}}</em>
+      <b>{{frequency}} Hz</b>
+
+      <ul class="beat-dots">
+        <li
+        *ngFor="let item of arrayConversion(beats); let i = index"
+        [ngClass]="{'current-active': count == i }">
+        </li>
       </ul>
     </div>
   </div>
   <div class="block">
     <div class="block__content">
+      <h1 [ngClass]="'color-'+tempoName"><b>{{pretitle}}</b>{{title}}</h1>
       <div class="card nm__shadow__lg">
         <div>
+
           <fieldset>
-            <label>beats</label>
+            <label>Frequency</label>
             <input
-              [ngStyle]="{'color': colorIntensity}"
+              [ngClass]="'color-'+tempoName"
+              type="range"
+              min="200"
+              max="2000"
+              [(ngModel)]="frequency"
+              (change)="stop()">
+          </fieldset>
+          <fieldset>
+            <label>Beats</label>
+            <input
+              [ngClass]="'color-'+tempoName"
               type="range"
               min="2"
               max="12"
@@ -35,16 +49,23 @@ beats
               (change)="stop()">
           </fieldset>
           <fieldset>
-            <label>bpm</label>
+            <label>Tempo</label>
             <input
-              [ngStyle]="{'color': colorIntensity}"
+              [ngClass]="'color-'+tempoName"
               type="range"
               min="0"
               max="300"
               [(ngModel)]="bpm"
-              (change)="changeColorIntensity(); stop()">
+              (change)="changeTempo()">
           </fieldset>
-
+          <br>
+          <div class="flex_block">
+            <label class="toggle-switch" >
+              <input type="checkbox" [(ngModel)]="stress">
+              <div class="slider nm__shadow__range" [ngClass]="'bg-'+tempoName"></div>
+            </label>
+            <p>Stress first note</p>
+          </div>
         </div>
         <div class="card__actions">
           <button
@@ -52,26 +73,26 @@ beats
             (click)="decreaseNumber()"
             (mousedown)="decreaseBpm()"
             (mouseup)="clearBpm()">
-            <i [ngStyle]="{'color': colorIntensity}" class="tiny material-icons">remove</i>
+            <i [ngClass]="'color-'+tempoName" class="tiny material-icons">remove</i>
           </button>
           <button
             *ngIf="!running"
             class="circle_button md nm__shadow__md"
             (click)="start(bpm,beats)">
-            <i class="large material-icons" [ngStyle]="{'color': colorIntensity}">play_arrow</i>
+            <i class="large material-icons" [ngClass]="'color-'+tempoName" >play_arrow</i>
           </button>
           <button
             *ngIf="running"
             class="circle_button md nm__shadow__md"
             (click)="stop()">
-            <i [ngStyle]="{'color': colorIntensity}" class="large material-icons">pause</i>
+            <i [ngClass]="'color-'+tempoName"  class="large material-icons">pause</i>
           </button>
           <button
             class="circle_button sm nm__shadow__sm"
             (click)="increaseNumber()"
             (mousedown)="increaseBpm()"
             (mouseup)="clearBpm()">
-            <i [ngStyle]="{'color': colorIntensity}" class="tiny material-icons">add</i>
+            <i [ngClass]="'color-'+tempoName"  class="tiny material-icons">add</i>
           </button>
         </div>
       </div>

@@ -7,17 +7,20 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'ng-mertronome';
+  pretitle = 'Easy';
+  title = 'Metronome';
   tempo = null;
+  tempoName = null;
   stress = false;
   bpm = 60;
   beats = 2;
+  count = null;
   limitMax = 300;
   limitMin = 40;
   frequency = 800;
   switchClass = false;
   worker: Worker;
-  running: boolean = false;
+  running = false;
   colorIntensity = null;
 
 
@@ -28,7 +31,9 @@ export class AppComponent {
       // Create a new
       this.worker = new Worker('./app.worker', { type: 'module' });
       this.worker.onmessage = ({ data }) => {
-        this.soundService.sound(data.count, data.beats, this.stress, this.frequency)
+        this.soundService.sound(data.count, data.beats, this.stress, this.frequency);
+        this.count = data.count % data.beats;
+        console.log(data.count);
         this.switchClass = !this.switchClass;
       };
     } else {
@@ -37,7 +42,7 @@ export class AppComponent {
     }
   }
   ngOnInit() {
-    this.changeColorIntensity();
+    this.changeTempo();
   }
 
   start(bpm, beats) {
@@ -51,6 +56,7 @@ export class AppComponent {
 
   stop() {
     this.running = false;
+    this.count = null;
     this.worker.postMessage({
       command: 'stop'
     });
@@ -72,7 +78,7 @@ export class AppComponent {
   increaseNumber() {
     if (this.bpm <= this.limitMax) {
       this.bpm++;
-      this.changeColorIntensity();
+      this.changeTempo();
 
     }
   }
@@ -80,7 +86,7 @@ export class AppComponent {
   decreaseNumber() {
     if (this.bpm > this.limitMin) {
       this.bpm--;
-      this.changeColorIntensity();
+      this.changeTempo();
 
     }
   }
@@ -92,20 +98,29 @@ export class AppComponent {
     return Array(n);
   }
 
-  changeColorIntensity() {
+  changeTempo() {
     if (this.bpm <= 40) {
-      this.colorIntensity = '#8801FE'
+      this.tempoName = 'grave';
+    } else if (this.bpm <= 50) {
+      this.tempoName = 'largo';
+    } else if (this.bpm <= 60) {
+      this.tempoName = 'larghetto';
+    } else if (this.bpm <= 70) {
+      this.tempoName = 'adagio';
+    } else if (this.bpm <= 90) {
+      this.tempoName = 'andante';
     } else if (this.bpm <= 100) {
-      this.colorIntensity = '#011AFE'
-    } else if (this.bpm <= 150) {
-      this.colorIntensity = '#08C33A'
-    } else if (this.bpm <= 200) {
-      this.colorIntensity = '#FECD09'
-    } else if (this.bpm <= 250) {
-      this.colorIntensity = '#FE8C09'
+      this.tempoName = 'moderato';
+    } else if (this.bpm <= 120) {
+      this.tempoName = 'allegretto';
+    } else if (this.bpm <= 160) {
+      this.tempoName = 'vivace';
+    } else if (this.bpm <= 190) {
+      this.tempoName = 'presto';
     } else {
-      this.colorIntensity = '#FE0909'
+      this.tempoName = 'prestissimo';
     }
+    this.stop();
   }
 
 }
