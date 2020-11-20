@@ -3,7 +3,7 @@ name: Deploy on GitHub Pages # Il nome della Action
 on:
   push: 
     branches:   
-      - master # La action verrà eseguita in caso di push sul branch master del nostro repository
+      - main # La action verrà eseguita in caso di push sul branch master del nostro repository
 
 jobs:
   build:
