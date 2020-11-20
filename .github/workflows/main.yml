@@ -1,31 +1,20 @@
-name: Deploy on GitHub Pages # Il nome della Action
-
+name: Build and Deploy
 on:
-  push: 
-    branches:   
-      - main # La action verrà eseguita in caso di push sul branch master del nostro repository
-
+  push:
+    branches:
+      - main
 jobs:
   build:
-    runs-on: ubuntu-latest # La action verrà eseguita su l'ultima versione di Ubuntu 
+
+    runs-on: ubuntu-latest
+
     steps:
-    - name: Checkout
-      uses: actions/checkout@v2 # Operazione di checkout standard utile per la CI
+    - uses: actions/checkout@v2
+    - name: All things angular
+      uses: AhsanAyaz/angular-deploy-gh-pages-actions@v1.3.1 ## replace by latest version without it you will see Expected format {org}/{repo}[/path]@ref. Actual 'AhsanAyaz/angular-deploy-gh-pages-actions',Input string was not in a correct format.
       with:
-        persist-credentials: false
-    - name: Use Node.js 10.x
-      uses: actions/setup-node@v1 # Setup di Node utilizzando la action https://github.com/actions/setup-node
-      with:
-        node-version: '10.x' # Nel nostro caso, utilizziamo la versione 10.x di Node
-    - name: Build
-      run: | # Esecuzione dei comandi di setup e build del progetto Angular, non dimenticando il parametro --base-href nel comando di build!
-         npm install -g @angular/cli
-         npm install
-         ng build --prod --base-href="/ng-metronome/"
-    - name: Deploy
-      uses: JamesIves/github-pages-deploy-action@releases/v2 # Deploy su GitHub Pages utilizzando la action https://github.com/JamesIves/github-pages-deploy-action
-      env:
-        ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }} # Indichiamo l'accesso token creato per essere autenticati correttamente, prelevandolo dalle Secrets
-        BASE_BRANCH: master
-        BRANCH: gh-pages # Il branch che contiene il progetto pubblicato sulle GitHub Pages
-        FOLDER: dist # Folder dove è stata eseguita la build del nostro progetto Angular
+        github_access_token: ${{ secrets.ACCESS_TOKEN }} # see the Configuration section for how you can create secrets
+        build_configuration: production # The build environment for the app. please look configurations in your angular.json
+        base_href: /ng-metronome/   # make sure this corresponds to https://<your_username>.github.io/<base_href>/
+        deploy_branch: gh-pages # The branch the action should deploy to.
+        angular_dist_build_folder: dist/ng-metronome # The folder where your project is supposed to be after running ng build by the action.
