@@ -21,7 +21,7 @@ jobs:
       run: | # Esecuzione dei comandi di setup e build del progetto Angular, non dimenticando il parametro --base-href nel comando di build!
          npm install -g @angular/cli
          npm install
-         ng build --prod --base-href="/redis-patterns-console/"
+         ng build --prod --base-href="/ng-metronome/"
     - name: Deploy
       uses: JamesIves/github-pages-deploy-action@releases/v2 # Deploy su GitHub Pages utilizzando la action https://github.com/JamesIves/github-pages-deploy-action
       env:
